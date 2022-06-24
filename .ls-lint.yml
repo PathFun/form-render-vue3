@@ -1,4 +1,5 @@
 ls:
+  src/*/{src,__tests__}:
     .vue: PascalCase
     .js: kebab-case
     .config.js: lowercase
@@ -6,7 +7,6 @@ ls:
     .d.ts: camelCase | kebab-case
     .spec.ts: camelCase | PascalCase
     .mock.ts: camelCase
-    .vdom.js: kebab-case
     .spec.js: kebab-case
 
 ignore:
