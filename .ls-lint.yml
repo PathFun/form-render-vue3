@@ -6,8 +6,10 @@ ls:
     .ts: camelCase | PascalCase
     .d.ts: camelCase | kebab-case
     .spec.ts: camelCase | PascalCase
+    .test.ts: camelCase | PascalCase
     .mock.ts: camelCase
     .spec.js: kebab-case
+    .test.js: kebab-case
 
 ignore:
     - dist
