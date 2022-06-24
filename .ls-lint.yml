@@ -1,0 +1,20 @@
+ls:
+    .vue: PascalCase
+    .js: kebab-case
+    .config.js: lowercase
+    .ts: camelCase | PascalCase
+    .d.ts: camelCase | kebab-case
+    .spec.ts: camelCase | PascalCase
+    .mock.ts: camelCase
+    .vdom.js: kebab-case
+    .spec.js: kebab-case
+
+ignore:
+    - dist
+    - test
+    - .babelrc.js
+    - .eslintrc.js
+    - .prettierrc
+    - .github
+    - .git
+    - node_modules
