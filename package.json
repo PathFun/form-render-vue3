@@ -39,13 +39,17 @@
     "vue-tsc": "^0.34.7"
   },
   "lint-staged": {
-    "*.{js,vue}": [
+    "*.{ts,js,vue}": [
       "prettier --write",
       "eslint --fix"
     ],
     "*.less": [
       "stylelint --fix"
     ]
+  },
+  "gitHooks": {
+    "pre-commit": "ls-lint && lint-staged",
+    "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
   },
   "husky": {
     "hooks": {
