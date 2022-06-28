@@ -6,10 +6,11 @@ import eslint from 'vite-plugin-eslint';
 import { resolve } from 'path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import typescript from '@rollup/plugin-typescript';
+import lessCopy from './plugins/less-copy.js';
 const { name } = require('./package.json');
 
 export default defineConfig({
-  plugins: [vue(), eslint(), vueJsx()],
+  plugins: [vue(), eslint(), vueJsx(), lessCopy()],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
