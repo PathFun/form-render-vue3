@@ -1,19 +1,17 @@
 <script setup lang="ts">
-  import HelloWorld from './components/HelloWorld.vue';
+import Test from './Test.vue';
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld />
+  <div class="abb">
+    <Test />
+  </div>
 </template>
 
-<style>
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
+<style lang="less">
+.abb {
+  color: #2c3e50;
+  font-weight: 400;
+  font-size: 0;
+}
 </style>
