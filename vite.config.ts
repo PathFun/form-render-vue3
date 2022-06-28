@@ -4,16 +4,44 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import eslint from 'vite-plugin-eslint';
 import { resolve } from 'path';
-import dts from 'vite-plugin-dts';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import typescript from '@rollup/plugin-typescript';
+const { name } = require('./package.json');
 
 export default defineConfig({
-  plugins: [vue(), eslint(), dts(), vueJsx()],
+  plugins: [vue(), eslint(), vueJsx()],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'Plugin',
-      fileName: 'index',
+      name: name,
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: {
+          vue: 'Vue',
+        },
+      },
+      plugins: [
+        typescript({
+          tsconfig: './tsconfig.esm.json',
+          target: 'es2020',
+          emitDeclarationOnly: true,
+          // outDir: 'dist',
+          // declaration: true,
+          // declarationDir: '.',
+          // exclude: 'node_modules/**',
+          // allowSyntheticDefaultImports: true,
+        }),
+      ],
+    },
+  },
+  css: {
+    postcss: {},
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+      },
     },
   },
   define: {

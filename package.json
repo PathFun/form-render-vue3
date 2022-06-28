@@ -2,9 +2,26 @@
   "name": "vite-template",
   "private": true,
   "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist",
+  "style": "./dist/style.css",
+  "main": "./dist/vite-template.umd.js",
+  "module": "./dist/vite-template.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vite-template.es.js",
+      "require": "./dist/vite-template.umd.js"
+    },
+    "./dist/style.css": "./dist/style.css",
+    "./dist/style.less": "./dist/style.less"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "types": "vue-tsc --declaration --emitDeclarationOnly",
+    "vars": "lessc --js ./src/style.less dist/modifyed.css",
     "preview": "vite preview",
     "fix": "yarn fix:lint && yarn fix:style",
     "fix:lint": "yarn lint:script --fix",
@@ -26,6 +43,7 @@
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
     "@ls-lint/ls-lint": "^1.11.2",
+    "@rollup/plugin-typescript": "^8.3.3",
     "@types/jest": "^28.1.3",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
@@ -53,10 +71,12 @@
     "stylelint-order": "^5.0.0",
     "typescript": "^4.5.4",
     "vite": "^2.9.9",
-    "vite-plugin-dts": "^1.2.0",
     "vite-plugin-eslint": "^1.6.1",
     "vitest": "^0.15.2",
     "vue-tsc": "^0.34.7"
+  },
+  "peerDependencies": {
+    "vue": ">=3.2.0"
   },
   "lint-staged": {
     "*.{ts,js,vue, tsx, jsx}": [
