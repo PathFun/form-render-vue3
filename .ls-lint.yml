@@ -1,5 +1,5 @@
 ls:
-  src/*/{src,__tests__}:
+  src/*:
     .vue: PascalCase
     .js: kebab-case
     .config.js: lowercase
