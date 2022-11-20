@@ -15,7 +15,10 @@
   "parserOptions": {
     "ecmaVersion": "latest",
     "parser": "@typescript-eslint/parser",
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "plugins": ["vue", "@typescript-eslint", "prettier"],
   "globals": {
@@ -24,7 +27,8 @@
     "defineExpose": "readonly",
     "withDefaults": "readonly",
     "test": true,
-    "expect": true
+    "expect": true,
+    "h": true
   },
   "rules": {
     "prettier/prettier": [
@@ -35,6 +39,26 @@
         "printWidth": 120
       }
     ],
-    "vue/multi-word-component-names": "off"
+    "vue/multi-word-component-names": "off",
+    "no-unused-vars": "off",
+    "no-undef": "off",
+    "vue/no-v-html": "off",
+    "vue/require-explicit-emits": "off",
+    "vue/require-prop-types": "off",
+    "vue/require-default-prop": "off",
+    "vue/no-reserved-keys": "off",
+    "vue/comment-directive": "off",
+    "vue/prop-name-casing": "off",
+    "vue/one-component-per-file": "off",
+    "vue/custom-event-name-casing": "off",
+    "vue/v-on-event-hyphenation": "off",
+    "vue/no-reserved-component-names": "off",
+    "vue/max-attributes-per-line": [
+      2,
+      {
+        "singleline": 20,
+        "multiline": 1
+      }
+    ]
   }
 }

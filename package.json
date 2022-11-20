@@ -1,21 +1,31 @@
 {
-  "name": "vite-template",
-  "private": true,
-  "version": "0.0.1",
+  "name": "form-render-vue3",
+  "description": "form-render-vue",
+  "author": "TQL<360603837@qq.com>",
+  "version": "1.2.4",
   "files": [
     "dist"
   ],
-  "types": "./dist",
+  "types": "./dist/form-render/index.d.ts",
   "style": "./dist/style.css",
-  "main": "./dist/vite-template.umd.js",
-  "module": "./dist/vite-template.es.js",
+  "main": "./dist/form-render-vue3.umd.js",
+  "module": "./dist/form-render-vue3.es.js",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:PathFun/swizzle.git"
+  },
+  "homepage": "https://pathfun.github.io/swizzle/form-render-vue/start/",
   "exports": {
     ".": {
-      "import": "./dist/vite-template.es.js",
-      "require": "./dist/vite-template.umd.js"
+      "import": "./dist/form-render-vue3.es.js",
+      "require": "./dist/form-render-vue3.umd.js"
     },
     "./dist/style.css": "./dist/style.css",
-    "./dist/style.less": "./dist/style.less"
+    "./dist/style.less": "./dist/form-render/style.less"
   },
   "scripts": {
     "dev": "vite",
@@ -25,35 +35,45 @@
     "preview": "vite preview",
     "fix": "yarn fix:lint && yarn fix:style",
     "fix:lint": "yarn lint:script --fix",
-    "fix:style": "stylelint --fix  **/*.{css,less,scss,vue}",
+    "fix:style": "stylelint --fix  ./src/*.{css,less,scss,vue}",
     "lint": "yarn lint:ls && yarn lint:script && yarn lint:style",
     "lint:ls": "ls-lint",
     "lint:script": "eslint ./src/*.{vue,js,ts,tsx}",
     "lint:style": "stylelint ./src/*.{css,less,scss,vue}",
     "test": "vitest",
+    "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage",
     "prepare": "husky install",
+    "version": "node ./scripts/generate-version",
     "release": "standard-version"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
     "ant-design-vue": "^3.2.9",
+    "lodash-es": "^4.17.21",
+    "smooth-scroll": "^16.1.3",
+    "tinycolor2": "^1.4.2",
     "vue": "^3.2.25"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
     "@ls-lint/ls-lint": "^1.11.2",
-    "@rollup/plugin-typescript": "^8.3.3",
     "@types/jest": "^28.1.3",
+    "@types/lodash-es": "^4.17.6",
+    "@types/smooth-scroll": "^16.1.1",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
+    "@vitest/coverage-c8": "^0.25.2",
+    "@vitest/ui": "^0.25.2",
     "@vue/test-utils": "^2.0.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^9.1.1",
+    "happy-dom": "^7.7.0",
     "husky": "^8.0.1",
     "jsdom": "^20.0.0",
     "less": "^4.1.2",
@@ -63,6 +83,7 @@
     "postcss-less": "^6.0.0",
     "postcss-scss": "^4.0.4",
     "prettier": "^2.7.1",
+    "rollup-plugin-copy": "^3.4.0",
     "standard-version": "^9.5.0",
     "stylelint": "^14.9.1",
     "stylelint-config-rational-order": "^0.1.2",
@@ -71,11 +92,13 @@
     "stylelint-order": "^5.0.0",
     "typescript": "^4.5.4",
     "vite": "^2.9.9",
+    "vite-plugin-dts": "^1.7.1",
     "vite-plugin-eslint": "^1.6.1",
     "vitest": "^0.15.2",
     "vue-tsc": "^0.34.7"
   },
   "peerDependencies": {
+    "ant-design-vue": "^3.2.9",
     "vue": ">=3.2.0"
   },
   "lint-staged": {
