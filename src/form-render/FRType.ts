@@ -71,7 +71,16 @@ export interface SchemaBase {
   descWidget?: string;
   requiredMark: RequiredMark;
   itemProps?: Record<string, any>;
-  // [key: string]: any;
+  // 一维、二维表格参数
+  rows:
+    | {
+        widgets: string[];
+        [key: string]: any;
+      }[][]
+    | {
+        widgets: string[];
+        [key: string]: any;
+      }[];
 }
 
 export type Schema = Partial<SchemaBase>;

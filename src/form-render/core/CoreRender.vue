@@ -17,6 +17,12 @@ import RenderObject from './RenderChildren/RenderObject/RenderObject.vue';
 import RenderTableObject from './RenderChildren/RenderObject/RenderTableObject.vue';
 import RenderField from './RenderField/RenderField.vue';
 import RenderLayout from './RenderField/RenderLayout.vue';
+interface Row {
+  merged: boolean;
+  colspan?: number;
+  rowspan?: number;
+  widgets: string[];
+}
 export default defineComponent({
   name: 'CoreRender',
   props: coreRenderProps(),
@@ -206,7 +212,7 @@ export default defineComponent({
           hideTitle={schema.props?.hideTitle}
           customClass={schema.props?.customClass}
           border={schema.props?.border}
-          rows={schema.props?.rows}
+          rows={schema.rows as Row[][]}
           children={item.children}
         />
       );

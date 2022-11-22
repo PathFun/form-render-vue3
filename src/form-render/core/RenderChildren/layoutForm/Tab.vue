@@ -8,8 +8,7 @@ export default defineComponent({
   setup(props) {
     return () => {
       const attrs = props.schema.props || {};
-      const { panes = [], ...rest } = attrs;
-      rest.title = rest.title ? rest.title : props.schema.title;
+      attrs.title = attrs.title ? attrs.title : props.schema.title;
       const childrenMap: Record<string, string> = {};
       props.children.forEach(child => {
         const childDeepKeyList = child.split('.');
@@ -19,17 +18,19 @@ export default defineComponent({
         }
         childrenMap[lastKey] = child;
       });
+      const items = props.schema.rows || [];
       return (
-        <Tabs {...rest}>
+        <Tabs {...attrs}>
           {{
             leftExtra: () =>
-              typeof rest.title === 'string' && rest.title.startsWith('<') ? (
-                <span innerHTML={rest.title} />
+              typeof attrs.title === 'string' && attrs.title.startsWith('<') ? (
+                <span innerHTML={attrs.title} />
               ) : (
-                rest.title
+                attrs.title
               ),
             default: () =>
-              panes.map((item: Record<string, any>, index: number) => {
+              items.map((item, index: number) => {
+                if (Array.isArray(item)) return;
                 const { widgets = [], ...paneRest } = item;
                 return (
                   <TabPane {...paneRest}>
@@ -47,23 +48,6 @@ export default defineComponent({
                 );
               }),
           }}
-          {/* {panes.map((item: Record<string, any>, index: number) => {
-            const { widgets = [], ...paneRest } = item;
-            return (
-              <TabPane {...paneRest}>
-                {widgets.map((widgetName: string, idx: number) => (
-                  <Core
-                    id={childrenMap[widgetName]}
-                    key={`${index}-${idx}`}
-                    data-index={props.dataIndex}
-                    displayType={props.displayType}
-                    labelAlign={props.labelAlign}
-                    hideTitle={props.hideTitle}
-                  />
-                ))}
-              </TabPane>
-            );
-          })} */}
         </Tabs>
       );
     };

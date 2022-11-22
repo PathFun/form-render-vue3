@@ -36,7 +36,7 @@ interface Row {
   widgets: string[];
 }
 
-const props = defineProps<{
+defineProps<{
   parentId: string;
   children: any[];
   dataIndex: number[];
