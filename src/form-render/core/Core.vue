@@ -99,7 +99,7 @@ export default defineComponent({
           hideValidation={hideValidation}
           debug-css={debugCss}
           schema={schema.value}
-          displayType={displayType}
+          displayType={props.displayType || displayType}
           column={column}
           labelWidth={labelWidth}
           readOnly={readOnly}

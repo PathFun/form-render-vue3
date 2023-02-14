@@ -210,7 +210,7 @@ export interface FRPropsCtx {
   globalProps: Record<string, any>;
   /** 标签元素和输入元素的排列方式，column-分两行展示，row-同行展示，inline-自然顺排，默认`'column'` */
   displayType: DisplayType;
-  theme: string | number;
+  theme: string;
   column: string | number;
   debounceInput?: boolean;
   /** 显示当前表单内部状态 */
@@ -299,7 +299,7 @@ export const frProps = () => ({
     type: Object,
     default: () => ({}),
   },
-  theme: [String, Number],
+  theme: String,
   /** 覆盖默认的校验信息 */
   validateMessages: {
     type: Object as PropType<Record<string, string>>,

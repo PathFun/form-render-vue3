@@ -33,7 +33,7 @@ export default defineComponent({
                 if (Array.isArray(item)) return;
                 const { widgets = [], ...paneRest } = item;
                 return (
-                  <TabPane {...paneRest}>
+                  <TabPane {...paneRest} key={index}>
                     {widgets.map((widgetName: string, idx: number) => (
                       <Core
                         id={childrenMap[widgetName]}

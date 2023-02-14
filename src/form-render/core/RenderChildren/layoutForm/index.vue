@@ -14,6 +14,10 @@ export default defineComponent({
       const customName = schema.widget;
       const { widgets = {}, mapping = {} } = propStore.value;
       let Widget;
+      let widgetProps: Record<string, any> = {
+        schema: schema,
+        componentProps: schema.props,
+      };
       switch (customName) {
         case 'card':
           return <Card {...props} />;
@@ -25,7 +29,7 @@ export default defineComponent({
           } else {
             Widget = widgets[getWidgetName(schema, mapping)];
           }
-          return Widget ? <Widget {...props} /> : <Card {...props} />;
+          return Widget ? <Widget {...widgetProps} /> : '未找到layout组件';
       }
     };
   },

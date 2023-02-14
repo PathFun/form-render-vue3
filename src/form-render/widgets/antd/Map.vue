@@ -2,31 +2,31 @@
   <div v-if="!schema.title" class="w-100">
     <slot />
   </div>
-  <div v-else-if="theme + '' === '1'" class="w-100">
-    <div class="c-title">
+  <div v-else-if="theme === 'tile'" className="w-100">
+    <div class="tile">
       {{ schema.title }}
+      <span className="fr-desc ml2">
+        {{ schema?.description ? `( ${schema.description} )` : '' }}
+      </span>
     </div>
-    <div
-      :style="{
-        marginLeft: displayType === 'row' ? 0 : '12px',
-      }"
-    >
+    <div :style="{ marginLeft: displayType === 'row' ? 0 : '12px' }">
       <slot />
     </div>
   </div>
-  <!-- 新增卡片视图-->
-  <div v-else-if="theme + '' === '2'" class="fr-theme-card-wrap">
-    <div>
-      <div :id="schema.title" class="fr-theme-card-title">{{ schema.title }}</div>
-      <div
-        :style="{
-          marginLeft: displayType === 'row' ? 0 : '12px',
-        }"
-      >
-        <slot />
-      </div>
+  <Card v-else-if="theme === 'card'" :id="schema.title" class="fr-theme-card-wrap">
+    <template #title>
+      {{ schema.title }}
+      <span class="fr-desc ml2">
+        {{ schema?.description ? `( ${schema.description} )` : '' }}
+      </span>
+    </template>
+    <slot />
+  </Card>
+  <template v-else-if="theme === 'flex'">
+    <div v-bind="schema.props">
+      <slot />
     </div>
-  </div>
+  </template>
   <div v-else class="w-100">
     <collapse :active-key="activeKey" @change="handleToggle">
       <Panel :key="1" class="fr-collapse-object">
@@ -38,9 +38,10 @@
     </collapse>
   </div>
 </template>
+
 <script lang="ts">
 import { defineComponent, ref, watch, computed } from 'vue';
-import { Collapse } from 'ant-design-vue';
+import { Collapse, Card } from 'ant-design-vue';
 import { componentProps } from '../../FRType';
 import { usePropsStore } from '../../hooks';
 const { Panel } = Collapse;
@@ -98,5 +99,12 @@ export default defineComponent({
   font-weight: 500;
   font-size: 17px;
   border-bottom: 1px solid rgb(0 0 0 / 20%);
+}
+.tile {
+  font-size: 17px;
+  font-weight: 500;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: 16px;
 }
 </style>
