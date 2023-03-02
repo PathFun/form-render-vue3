@@ -35,15 +35,13 @@ export default defineConfig({
       fileName: format => `${name}.${format}.js`,
     },
     rollupOptions: {
-      external: ['vue', 'ant-design-vue', 'vue-types', '@ant-design/icons-vue', 'lodash-es'],
+      external: ['vue', 'ant-design-vue', 'vue-types', '@ant-design/icons-vue'],
       output: {
         globals: {
           vue: 'Vue',
           'ant-design-vue': 'antd',
           'vue-types': 'vueTypes',
           '@ant-design/icons-vue': 'iconsVue',
-          '@ant-design/icons-svg': 'iconsSvg',
-          'lodash-es': 'lodash',
         },
       },
     },
