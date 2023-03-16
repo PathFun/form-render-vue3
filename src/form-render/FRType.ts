@@ -1,5 +1,5 @@
 import { RuleItem } from 'async-validator/dist-types/interface';
-import type { PropType, ExtractPropTypes, CSSProperties } from 'vue';
+import type { PropType, ExtractPropTypes, CSSProperties, Ref } from 'vue';
 export type { RuleItem } from 'async-validator/dist-types/interface';
 import PropTypes from './_util/vue-types';
 export type SchemaType =
@@ -92,7 +92,7 @@ export interface Error {
   error: string[];
 }
 export interface FormParams {
-  formData: Record<string, any>;
+  initialValue: Record<string, any> | Ref<Record<string, any>>;
   onChange?: (data: Record<string, any>) => void;
   onValidate?: (valid: any) => void;
   showValidate?: boolean;

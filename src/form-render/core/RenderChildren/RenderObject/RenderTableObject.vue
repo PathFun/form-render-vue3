@@ -27,7 +27,6 @@
 
 <script lang="ts" setup>
 import Core from '../../Core.vue';
-import { defineProps } from 'vue';
 
 interface Row {
   merged: boolean;

@@ -11,7 +11,7 @@ import {
   getHiddenData,
 } from './_util';
 import { validateAll } from './validator';
-import { reactive, watch, ref } from 'vue';
+import { reactive, watch, ref, nextTick } from 'vue';
 
 interface SyncStuff {
   schema: Schema;
@@ -34,7 +34,7 @@ type SetErrorsParam = Error[] | ((error: Error[]) => Error[]);
 
 function useForm(
   props: FormParams = {
-    formData: {},
+    initialValue: ref({}),
   }
 ): FormInstance {
   const logOnMount = props.logOnMount || (window.FR_LOGGER && window.FR_LOGGER.logOnMount);
@@ -45,12 +45,11 @@ function useForm(
   const _errorFields = ref<Error[]>([]);
 
   // All form methods are down here ----------------------------------------------------------------
-  // 两个兼容 0.x 的函数
   const _setData = (data: Record<string, any>) => {
+    setState({ formData: data });
+    Object.assign(props.initialValue, data);
     if (typeof props.onChange === 'function') {
       props.onChange(data);
-    } else {
-      setState({ formData: data });
     }
   };
 
@@ -234,7 +233,9 @@ function useForm(
 
   const setValues = (newFormData: Record<string, any>) => {
     const newData = transformDataWithBind2(newFormData, flattenRef.value);
-    _setData(newData);
+    nextTick(function () {
+      _setData(newData);
+    });
   };
 
   const submit = () => {
@@ -477,7 +478,7 @@ function useForm(
   };
 
   const formInstance: FormInstance = {
-    formData: props.formData || {},
+    formData: props.initialValue || {},
     schema: {},
     flatten: {},
     touchedKeys: [],
@@ -547,11 +548,14 @@ function useForm(
     Object.assign(rowState, value);
   };
 
-  watch([() => state.schema, () => props.formData], ([newSchema, formData]) => {
-    setState({
-      formData: newSchema ? generateDataSkeleton(newSchema, formData) : {},
-    });
-  });
+  watch(
+    () => state.schema,
+    newSchema => {
+      setState({
+        formData: newSchema ? generateDataSkeleton(newSchema, state.formData) : {},
+      });
+    }
+  );
 
   watch([_errorFields, _outErrorFields], ([errorFields, outErrorFields]) => {
     if (outErrorFields.length) {
@@ -570,7 +574,7 @@ function useForm(
   });
 
   // 统一的处理expression
-  watch([flattenRef, () => state.formData, () => state.firstMount], ([flatten, formData, curFirstMount]) => {
+  watch([flattenRef, () => state.firstMount], ([flatten, curFirstMount]) => {
     if (curFirstMount) {
       return;
     }
@@ -583,7 +587,7 @@ function useForm(
         if (isArrayItem && hasRootValue) {
           // do nothing
         } else {
-          newFlatten[path].schema = parseAllExpression(info.schema, formData, path);
+          newFlatten[path].schema = parseAllExpression(info.schema, state.formData, path);
         }
       }
     });

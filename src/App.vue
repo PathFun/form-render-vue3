@@ -2,7 +2,7 @@
 import 'ant-design-vue/dist/antd.css';
 import { Button, Space, message } from 'ant-design-vue';
 import FR, { useForm } from './form-render';
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 const fakeApi = (url = '', data = {}) => {
@@ -12,9 +12,13 @@ const fakeApi = (url = '', data = {}) => {
   return delay(200);
 };
 
+const formData = ref({});
+
 const disabled = ref(false);
 
-const form = useForm();
+const form = useForm({
+  initialValue: formData,
+});
 const schema = reactive({
   type: 'object',
   properties: {
@@ -297,6 +301,8 @@ const changeDisabled = () => {
 const getFormDate = () => {
   console.log(form.formData);
 };
+
+watch(formData, newFormData => console.log(newFormData));
 </script>
 
 <template>
