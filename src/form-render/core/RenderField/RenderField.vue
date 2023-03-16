@@ -47,7 +47,7 @@ export default defineComponent({
     const onChange = (value: any) => {
       const { onItemChange, setEditing, touchKey, _setErrors, formData, flatten } = form;
       const { locale, debounceInput, validateMessages } = useProps.value;
-      const { dataPath, onValuesChange } = props;
+      const { dataPath } = props;
       // 动过的key，算被touch了, 这里之后要考虑动的来源
       touchKey(dataPath);
       // 开始编辑，节流
@@ -57,10 +57,6 @@ export default defineComponent({
       }
       if (typeof dataPath === 'string') {
         onItemChange(dataPath, value);
-      }
-      // 先不暴露给外部，这个api
-      if (typeof onValuesChange === 'function') {
-        onValuesChange({ [dataPath]: value }, form.formData);
       }
       validateField({
         path: dataPath,
@@ -85,10 +81,9 @@ export default defineComponent({
 
     return () => {
       const { onItemChange, showValidate, formData } = form;
-      const { readOnly, disabled, renderTitle, requiredMark, watchMap } = useProps.value;
+      const { readOnly, disabled, renderTitle, requiredMark } = useProps.value;
       const _children = slots.default ? slots.default() : null;
       const {
-        _id,
         dataIndex,
         dataPath,
         _value,
@@ -139,7 +134,6 @@ export default defineComponent({
       }
 
       const widgetProps = {
-        _id,
         schema: _schema,
         readOnly: _readOnly,
         disabled: _disabled,
@@ -151,7 +145,6 @@ export default defineComponent({
         onItemChange,
         dataIndex,
         dataPath,
-        watchMap,
         hasError,
       };
 

@@ -1,6 +1,6 @@
+import { RuleItem } from 'async-validator/dist-types/interface';
 import type { PropType, ExtractPropTypes, CSSProperties } from 'vue';
-import { RuleItem } from 'async-validator';
-export type { RuleItem } from 'async-validator';
+export type { RuleItem } from 'async-validator/dist-types/interface';
 import PropTypes from './_util/vue-types';
 export type SchemaType =
   | 'string'
@@ -92,7 +92,7 @@ export interface Error {
   error: string[];
 }
 export interface FormParams {
-  formData?: Record<string, any>;
+  formData: Record<string, any>;
   onChange?: (data: Record<string, any>) => void;
   onValidate?: (valid: any) => void;
   showValidate?: boolean;
@@ -194,17 +194,6 @@ export interface FlattenValue {
 
 export type Flatten = Record<string, FlattenValue>;
 
-export type WatcherInstance =
-  | {
-      handler: (value: any) => void;
-      immediate?: boolean;
-    }
-  | ((value: any) => void);
-
-export type WatchProperties = {
-  [path: string]: WatcherInstance;
-};
-
 export interface FRPropsCtx {
   /** 表单的全局共享属性 */
   globalProps: Record<string, any>;
@@ -230,9 +219,6 @@ export interface FRPropsCtx {
   widgets: Record<string, any>;
   /** 组件和schema的映射规则 */
   mapping: Record<string, string>;
-  watchMap: WatchProperties;
-  /** 时时与外部更新同步的钩子 */
-  onValuesChange: (changedValues: any, formData: any) => void;
   labelAlign: LabelAlign;
   colon: boolean;
   renderTitle: (schema: Record<string, any>) => JSX.Element;
@@ -333,11 +319,6 @@ export const frProps = () => ({
     type: Object as PropType<Record<string, any>>,
     default: () => ({}),
   },
-  // 类似于 vuejs 的 watch 的用法，监控值的变化，触发 callback
-  watchMap: {
-    type: Object as PropType<WatchProperties>,
-    default: () => ({}),
-  },
   /** 对象组件是否折叠（全局的控制） */
   allCollapsed: {
     type: Boolean,
@@ -377,19 +358,6 @@ export const frProps = () => ({
   /** 表单提交后钩子 */
   onFinish: {
     type: Function as PropType<(formData: any, error: Error[]) => void>,
-  },
-  /** 时时与外部更新同步的钩子 */
-  onValuesChange: {
-    type: Function as PropType<
-      (
-        changedValues: {
-          dataPath: string;
-          value: any;
-          dataIndex: number[] | unknown;
-        },
-        formData: any
-      ) => void
-    >,
   },
 });
 
@@ -501,10 +469,6 @@ export const coreRenderProps = () => ({
 });
 
 export const renderFieldProps = () => ({
-  _id: {
-    type: String,
-    default: '',
-  },
   dataIndex: Array as PropType<number[]>,
   dataPath: {
     type: String,
@@ -586,10 +550,6 @@ export const extendedWidgetProps = () => ({
     type: Array as PropType<number[]>,
     default: (): number[] => [],
   },
-  watchMap: {
-    type: Object as PropType<WatchProperties>,
-    default: () => ({}),
-  },
   hasError: Boolean,
 });
 
@@ -611,7 +571,7 @@ export const titleProps = () => ({
     default: '',
   },
   renderTitle: Function as PropType<(schema: Record<string, any>) => JSX.Element>,
-  requiredMark: String as PropType<RequiredMark>,
+  requiredMark: [Boolean, String] as PropType<RequiredMark>,
 });
 
 const fnDefine = {

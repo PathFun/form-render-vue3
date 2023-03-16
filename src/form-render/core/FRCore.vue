@@ -27,17 +27,6 @@
       <div>{{ 'allTouched:' + JSON.stringify(form.allTouched) }}</div>
       <div>{{ 'descriptor:' + JSON.stringify(descriptor) }}</div>
     </div>
-    <template v-if="loaded && watchList.length">
-      <Watcher
-        v-for="key in watchList"
-        :key="key"
-        :reload="reload"
-        :watch-key="key"
-        :watch-item="watchMap[key]"
-        :watch-map="watchMap"
-        :form-data="formData"
-      />
-    </template>
     <Core :debug-css="debugCss" />
   </div>
 </template>
@@ -47,7 +36,6 @@ import { defineComponent, onUnmounted, computed, watch, reactive, ref, nextTick 
 import Core from './Core.vue';
 import { frProps, ValidateParams, Schema } from '../FRType';
 import { useFormStore, PropsCtx } from '../hooks';
-import Watcher from './Watcher';
 import { yymmdd, msToTime } from '../_util';
 import { mapping as defaultMapping } from '../mapping';
 
@@ -55,7 +43,6 @@ export default defineComponent({
   name: 'FRCore',
   components: {
     Core,
-    Watcher,
   },
   inheritAttrs: false,
   props: frProps(),
@@ -84,15 +71,11 @@ export default defineComponent({
           readOnly: props.readOnly,
           disabled: props.disabled,
           allCollapsed: props.allCollapsed,
-          watchMap: props.watchMap,
           widgets: props.widgets,
           mapping: { ...defaultMapping, ...props.mapping },
           methods: props.methods,
           renderTitle: props.renderTitle,
           requiredMark: props.requiredMark,
-          onValuesChange: (changedValues: any, formData: any) => {
-            props.onValuesChange && props.onValuesChange(changedValues, formData);
-          },
         }))
       )
     );
@@ -117,13 +100,13 @@ export default defineComponent({
       }
     };
 
-    watch([props.schema], ([newSchema]) => {
+    watch(props.schema, newSchema => {
       init(newSchema);
     });
 
     init(props.schema);
 
-    watch([() => props.schema, () => form.firstMount], ([schema, firstMount]) => {
+    watch([props.schema, () => form.firstMount], ([schema, firstMount]) => {
       if (!firstMount && schema && schema.type) {
         if (typeof props.onMount === 'function') {
           setTimeout(() => props.onMount && props.onMount(), 0);
@@ -225,7 +208,6 @@ export default defineComponent({
     return {
       loaded,
       reload,
-      watchList: computed<string[]>(() => Object.keys(props.watchMap) || []),
       formData: computed<any>(() => form.formData),
       form,
       rootProps: computed<Record<string, any>>(() => {

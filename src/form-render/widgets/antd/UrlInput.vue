@@ -29,13 +29,14 @@ const UrlNode = defineComponent({
 
 export default defineComponent({
   props: componentProps(),
-  setup(props) {
+  emits: ['change'],
+  setup(props, { emit }) {
     const handleChange = (event: Event) => {
-      const { onChange, componentProps = {} } = props;
+      const { componentProps = {} } = props;
       const { prefix, suffix } = componentProps;
       let _value = (event.target as HTMLInputElement).value;
       if (!_value) {
-        onChange && onChange(_value);
+        emit('change', _value);
         return;
       }
       if (prefix) {
@@ -44,11 +45,11 @@ export default defineComponent({
       if (suffix) {
         _value = _value + suffix;
       }
-      onChange && onChange(_value);
+      emit('change', _value);
     };
 
     return () => {
-      const { componentProps = {}, value, ...rest } = props;
+      const { componentProps = {}, value, onChange, ...rest } = props;
       const { prefix, suffix, addonText } = componentProps;
       let _value = value || '';
       if (prefix) _value = _value.replace(prefix, '');
@@ -59,11 +60,11 @@ export default defineComponent({
           value={_value}
           prefix={prefix}
           suffix={suffix}
-          onChange={handleChange}
           v-slots={{
             addonAfter: () => <UrlNode value={value} addonText={addonText} />,
           }}
           {...rest}
+          onChange={handleChange}
         />
       );
     };

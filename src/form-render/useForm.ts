@@ -32,7 +32,11 @@ interface RowState {
 
 type SetErrorsParam = Error[] | ((error: Error[]) => Error[]);
 
-function useForm(props: FormParams = {}): FormInstance {
+function useForm(
+  props: FormParams = {
+    formData: {},
+  }
+): FormInstance {
   const logOnMount = props.logOnMount || (window.FR_LOGGER && window.FR_LOGGER.logOnMount);
   const logOnSubmit = props.logOnSubmit || (window.FR_LOGGER && window.FR_LOGGER.logOnSubmit);
 
@@ -543,7 +547,7 @@ function useForm(props: FormParams = {}): FormInstance {
     Object.assign(rowState, value);
   };
 
-  watch([() => state.schema, props.formData], ([newSchema, formData]) => {
+  watch([() => state.schema, () => props.formData], ([newSchema, formData]) => {
     setState({
       formData: newSchema ? generateDataSkeleton(newSchema, formData) : {},
     });

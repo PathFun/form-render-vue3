@@ -52,25 +52,19 @@ export default defineComponent({
   components: {
     Collapse,
     Panel,
+    Card,
   },
   inheritAttrs: false,
   props: componentProps(),
   setup(props) {
     const propsStore = usePropsStore();
-    const collapsed = ref(false);
 
-    const activeKey = ref<number[]>([1]);
-
-    watch(props.schema.collapsed, collapsed => {
-      collapsed.value = !!collapsed;
-    });
+    const activeKey = ref<number[]>(props.schema.collapsed ? [1] : []);
 
     const handleToggle = function (keyList: Key | Key[]) {
       if (Array.isArray(keyList) && keyList.length > 0) {
-        collapsed.value = false;
         activeKey.value = [1];
       } else {
-        collapsed.value = true;
         activeKey.value = [];
       }
     };
@@ -78,7 +72,7 @@ export default defineComponent({
     watch(
       () => propsStore.value.allCollapsed,
       newVal => {
-        if (newVal !== undefined) collapsed.value = newVal;
+        if (newVal !== undefined) activeKey.value = [1];
       }
     );
 

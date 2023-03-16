@@ -164,7 +164,6 @@ export default defineComponent({
 
       const hasChildren = item.children && item.children.length > 0;
       const fieldProps = {
-        id,
         dataIndex,
         dataPath,
         _value,
@@ -211,7 +210,7 @@ export default defineComponent({
           displayType={_displayType}
           hideTitle={schema.props?.hideTitle}
           customClass={schema.props?.customClass}
-          border={schema.props?.border}
+          border={parseInt(schema.props?.border) || 0}
           rows={schema.rows as Row[][]}
           children={item.children}
         />

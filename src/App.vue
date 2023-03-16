@@ -73,7 +73,7 @@ const schema = reactive({
         ],
       ],
       props: {
-        border: true,
+        border: 1,
         customClass: '',
         hideTitle: true,
       },
@@ -156,6 +156,7 @@ delay(3000).then(_ => {
           subLayout: {
             title: '布局组件',
             type: 'layout',
+            widget: 'card',
             props: {
               style: {
                 width: '100%',
@@ -296,13 +297,6 @@ const changeDisabled = () => {
 const getFormDate = () => {
   console.log(form.formData);
 };
-
-const watchMap = {
-  '#': {
-    handler: (v: any) => console.log(v, 12121212),
-    immediate: false,
-  },
-};
 </script>
 
 <template>
@@ -312,7 +306,6 @@ const watchMap = {
       :schema="schema"
       display-type="row"
       label-align="right"
-      :watch-map="watchMap"
       :on-finish="onFinish"
       :disabled="disabled"
     />

@@ -52,7 +52,6 @@ export default defineComponent({
         dataPath,
         disabled,
         dataIndex,
-        watchMap,
         hasError,
       } = props;
 
@@ -142,7 +141,6 @@ export default defineComponent({
         getFieldsError,
         setFields,
         hideSelf,
-        watchMap,
       };
 
       const finalProps = transformProps(widgetProps);
