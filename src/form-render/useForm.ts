@@ -571,25 +571,31 @@ function useForm(
   });
 
   // 统一的处理expression
-  watch([flattenRef, () => state.firstMount], ([flatten, curFirstMount]) => {
-    if (curFirstMount) {
-      return;
-    }
-    let newFlatten = clone(flatten);
-    Object.entries(flatten).forEach(([path, info]) => {
-      if (schemaContainsExpression(info.schema)) {
-        const arrayLikeIndex = path.indexOf(']');
-        const isArrayItem = arrayLikeIndex > -1 && arrayLikeIndex < path.length - 1;
-        const hasRootValue = JSON.stringify(info.schema).indexOf('rootValue') > -1;
-        if (isArrayItem && hasRootValue) {
-          // do nothing
-        } else {
-          newFlatten[path].schema = parseAllExpression(info.schema, state.formData, path);
-        }
+  watch(
+    [flattenRef, () => state.formData, () => state.firstMount],
+    ([flatten, formData, curFirstMount]) => {
+      if (curFirstMount) {
+        return;
       }
-    });
-    setState({ flatten: newFlatten });
-  });
+      let newFlatten = clone(flatten);
+      Object.entries(flatten).forEach(([path, info]) => {
+        if (schemaContainsExpression(info.schema)) {
+          const arrayLikeIndex = path.indexOf(']');
+          const isArrayItem = arrayLikeIndex > -1 && arrayLikeIndex < path.length - 1;
+          const hasRootValue = JSON.stringify(info.schema).indexOf('rootValue') > -1;
+          if (isArrayItem && hasRootValue) {
+            // do nothing
+          } else {
+            newFlatten[path].schema = parseAllExpression(info.schema, formData, path);
+          }
+        }
+      });
+      setState({ flatten: newFlatten });
+    },
+    {
+      deep: true,
+    }
+  );
 
   return state;
 }

@@ -60,7 +60,7 @@ export default defineComponent({
       const isLayout = isLayoutFn(schema);
       const isComplex = isObj || isList;
       const isCheckBox = isCheckBoxType(schema, readOnly);
-      const width = schema.width || schema['ui:width'];
+      const width = schema.width;
       let containerClass = `fr-field ${_displayType === 'inline' ? '' : 'w-100'} flex`;
       let labelClass = `fr-label`;
       let contentClass = `fr-content`;
@@ -125,7 +125,6 @@ export default defineComponent({
           }
         }
       }
-
       // style part
       let columnStyle: CSSProperties = {};
       if (schema.hidden) {

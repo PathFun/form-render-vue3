@@ -133,10 +133,15 @@ delay(3000).then(_ => {
         type: 'string',
         format: 'url',
       },
+      inputSimple: {
+        title: '简单输入框',
+        type: 'string',
+      },
       imageName: {
         title: '图片展示',
         type: 'string',
         format: 'image',
+        hidden: '{{!rootValue.inputSimple}}',
       },
       color: {
         title: '颜色展示',
