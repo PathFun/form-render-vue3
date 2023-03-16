@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FR :form="form" :schema="schema" :onFinish="onFinish" :watchMap="watchMap" :onMount="onMount" />
+    <FR :form="form" :schema="schema" :onFinish="onFinish" :onMount="onMount" />
     <div data-testid="fr-value">
       <div data-testid="input">{{ state?.inp1 }}</div>
       <div data-testid="select">{{ state?.sel1 }}</div>
@@ -186,10 +186,6 @@ const FillDemo = defineComponent({
       Object.assign(state, data);
     };
 
-    const watchMap = {
-      '#': (v: any) => console.log(v),
-    };
-
     const onMount = () => {
       form.setValueByPath('link', 'www.baidu.com');
     };
@@ -203,7 +199,6 @@ const FillDemo = defineComponent({
       onClick,
       changeSchema,
       state,
-      watchMap,
       onFinish,
       schema,
       onMount,
