@@ -92,7 +92,7 @@ export interface Error {
   error: string[];
 }
 export interface FormParams {
-  initialValue: Record<string, any> | Ref<Record<string, any>>;
+  initialValue: Record<string, any>;
   onChange?: (data: Record<string, any>) => void;
   onValidate?: (valid: any) => void;
   showValidate?: boolean;

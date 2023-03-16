@@ -12,12 +12,10 @@ const fakeApi = (url = '', data = {}) => {
   return delay(200);
 };
 
-const formData = ref({});
-
 const disabled = ref(false);
 
 const form = useForm({
-  initialValue: formData,
+  initialValue: {},
 });
 const schema = reactive({
   type: 'object',
@@ -302,7 +300,13 @@ const getFormDate = () => {
   console.log(form.formData);
 };
 
-watch(formData, newFormData => console.log(newFormData));
+watch(
+  () => form.formData,
+  newFormData => console.log(newFormData),
+  {
+    deep: true,
+  }
+);
 </script>
 
 <template>

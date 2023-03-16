@@ -34,7 +34,7 @@ type SetErrorsParam = Error[] | ((error: Error[]) => Error[]);
 
 function useForm(
   props: FormParams = {
-    initialValue: ref({}),
+    initialValue: {},
   }
 ): FormInstance {
   const logOnMount = props.logOnMount || (window.FR_LOGGER && window.FR_LOGGER.logOnMount);
@@ -44,10 +44,8 @@ function useForm(
   const _outErrorFields = ref<Error[]>([]);
   const _errorFields = ref<Error[]>([]);
 
-  // All form methods are down here ----------------------------------------------------------------
   const _setData = (data: Record<string, any>) => {
     setState({ formData: data });
-    Object.assign(props.initialValue, data);
     if (typeof props.onChange === 'function') {
       props.onChange(data);
     }
@@ -93,7 +91,6 @@ function useForm(
       return;
     }
     set(state.formData, path, value);
-    _setData({ ...state.formData });
   };
 
   const syncStuff = ({ schema, locale, validateMessages, beforeFinish, removeHiddenData }: SyncStuff) => {
