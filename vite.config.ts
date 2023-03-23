@@ -64,6 +64,6 @@ export default defineConfig({
     include: ['**/*/__tests__/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
   server: {
-    port: 8017,
+    port: 8088,
   },
 });
