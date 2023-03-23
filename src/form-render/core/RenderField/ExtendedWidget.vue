@@ -20,7 +20,7 @@ export default defineComponent({
 
     return () => {
       const _children = slots.default ? slots.default() : null;
-      const { globalProps, mapping = {}, widgets = {} } = propStore.value;
+      const { globalProps, mapping = {}, widgets = {}, locale } = propStore.value;
       const {
         setSchemaByPath,
         setValueByPath,
@@ -77,6 +77,7 @@ export default defineComponent({
         schema: { ...schema, ...extraSchema },
         onChange,
         value,
+        locale,
         disabled,
         readOnly,
         class: hasError ? 'fr-item-status-error' : '',

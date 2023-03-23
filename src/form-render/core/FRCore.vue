@@ -60,7 +60,7 @@ export default defineComponent({
           globalProps: props.globalProps,
           displayType: props.displayType,
           labelAlign: props.labelAlign,
-          colon: props.colon || true,
+          colon: props.colon,
           theme: props.theme || '',
           column: props.column,
           debounceInput: props.debounceInput,

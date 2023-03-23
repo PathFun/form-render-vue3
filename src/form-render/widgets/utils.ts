@@ -23,13 +23,13 @@ export function getFormat(format: string): string {
       dateFormat = 'YYYY-MM-DD HH:mm:ss';
       break;
     case 'week':
-      dateFormat = 'YYYY-w';
+      dateFormat = 'YYYY-wo';
       break;
     case 'year':
       dateFormat = 'YYYY';
       break;
     case 'quarter':
-      dateFormat = 'YYYY-Q';
+      dateFormat = `YYYY-Q`;
       break;
     case 'month':
       dateFormat = 'YYYY-MM';
