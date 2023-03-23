@@ -164,7 +164,6 @@ export interface FormInstance {
   setFieldValidating: (namePath: string) => void;
   removeFieldValidating: (namePath: string) => void;
   isFieldValidating: (namePath: string) => boolean;
-  scrollToPath: (namePath: string) => void;
   getFieldError: (namePath: string) => String[];
   getFieldsError: (nameList?: string[]) => Error[];
   setFields: (fields: FieldParams[]) => void;

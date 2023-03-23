@@ -1,7 +1,6 @@
 import { set, sortedUniqBy, get, isEmpty, isFunction } from 'lodash-es';
 import { processData, transformDataWithBind2 } from './processData';
 import { FormParams, FormInstance, ResetParams, FieldParams, Error, Schema, BeforeFinish, Flatten } from './FRType';
-import SmoothScroll from 'smooth-scroll';
 import {
   clone,
   flattenSchema,
@@ -414,14 +413,6 @@ function useForm(
     return state.touchedKeys.indexOf(namePath) > -1;
   };
 
-  const scrollToPath = (namePath: string) => {
-    var scroll = new SmoothScroll();
-    const node = document.querySelector(`[datapath="${namePath}"]`);
-    if (node) {
-      scroll.animateScroll(node);
-    }
-  };
-
   const getFieldError = (namePath: string) => {
     return (
       state.errorFields.find(error => {
@@ -514,7 +505,6 @@ function useForm(
     setFieldValidating,
     removeFieldValidating,
     isFieldValidating,
-    scrollToPath,
     getFieldError,
     getFieldsError,
     setFields,
