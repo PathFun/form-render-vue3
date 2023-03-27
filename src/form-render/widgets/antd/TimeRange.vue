@@ -13,31 +13,16 @@ export default defineComponent({
   inheritAttrs: false,
   props: componentProps(),
   setup(props) {
-    const handleChange = (value: any, stringList: any) => {
-      if (!props.onChange) {
-        return;
-      }
-      const emptyList1 = stringList[0] === '' || stringList[1] === '';
-      const emptyList2 = stringList[0] === undefined || stringList[1] === undefined;
-      if (emptyList1 || emptyList2) {
-        props.onChange(undefined);
-      } else {
-        props.onChange(stringList);
-      }
-    };
     return () => {
-      const { onChange, schema, value, componentProps = {}, ...rest } = props;
-      const { format = 'date' } = schema;
+      const { schema, value, componentProps = {}, ...rest } = props;
+      const { format = 'time' } = schema;
       const timeFormat = getFormat(format);
-      let [start, end] = Array.isArray(value) ? value : [];
-      const _value: RangeValue<Dayjs> | RangeValue<string> =
-        start && end ? [dayjs(start, timeFormat), dayjs(end, timeFormat)] : null;
 
       const timeParams: Record<string, any> = {
         ...componentProps,
         ...rest,
-        value: _value,
-        onChange: handleChange,
+        format: componentProps.format || timeFormat,
+        valueFormat: componentProps.valueFormat || timeFormat,
       };
 
       timeParams.style = timeParams.style ? { width: '100%', ...timeParams.style } : { width: '100%' };
