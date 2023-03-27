@@ -8,23 +8,22 @@ export default defineComponent({
   inheritAttrs: false,
   props: componentProps(),
   setup(props) {
-    const dateValue = ref(props.value);
-
-    const handleChange = (value: any) => {
-      props.onChange?.(value);
-    };
+    const _modelValue = ref();
 
     watch(
       () => props.value,
       (_value: any) => {
-        if (_value !== dateValue.value) {
-          dateValue.value = _value;
+        if (_value !== _modelValue.value) {
+          _modelValue.value = _value;
         }
+      },
+      {
+        immediate: true,
       }
     );
 
     return () => {
-      const { componentProps = {}, globalProps = {}, schema, value, onChange, ...rest } = props;
+      const { componentProps = {}, globalProps = {}, schema, value, ...rest } = props;
       const { format = 'date' } = schema;
       const dateFormat = getFormat(format);
 
@@ -50,7 +49,7 @@ export default defineComponent({
 
       dateParams.valueFormat = componentProps.valueFormat || dateFormat;
 
-      return <DatePicker {...dateParams} v-model={dateValue} onChange={handleChange} />;
+      return <DatePicker {...dateParams} v-model={_modelValue.value} />;
     };
   },
 });

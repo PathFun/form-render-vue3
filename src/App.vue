@@ -23,7 +23,7 @@ const schema = reactive({
   properties: {
     date: {
       type: 'string',
-      format: 'time',
+      format: 'quarter',
       title: '日期',
     },
   },
