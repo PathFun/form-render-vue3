@@ -20,8 +20,8 @@ export default defineComponent({
     };
 
     return () => {
-      const { readOnly, disabled, value = '#FFFFFF', globalProps = {}, componentProps = {} } = props;
-
+      const { readOnly, disabled, value = '#FFFFFF', globalProps = {}, componentProps = {}, schema } = props;
+      let { format = '' } = schema;
       return (
         <div class="fr-color-picker">
           <Popover
@@ -29,7 +29,13 @@ export default defineComponent({
             v-slots={{
               default: () => <div class="rc-color-picker-trigger" style={{ backgroundColor: value }}></div>,
               content: () => (
-                <ColorPicker {...globalProps} {...componentProps} value={value} onChange={onPickerChange} />
+                <ColorPicker
+                  format={format === 'color' ? 'hex8' : (format as any)}
+                  {...globalProps}
+                  {...componentProps}
+                  value={value}
+                  onChange={onPickerChange}
+                />
               ),
             }}
           />

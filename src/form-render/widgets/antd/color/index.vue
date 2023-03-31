@@ -1,9 +1,16 @@
 <template>
-  <ColorPicker ref="colorPickerRef" :value="color" :disable-alpha="false" :mode="mode" @change="handleChange" />
+  <ColorPicker
+    ref="colorPickerRef"
+    :value="color"
+    :disable-alpha="false"
+    :mode="mode"
+    :disable-fields="disableFields"
+    @change="handleChange"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, PropType } from 'vue';
 import ColorPicker from './ColorPicker.vue';
 export default defineComponent({
   components: { ColorPicker },
@@ -13,9 +20,21 @@ export default defineComponent({
       type: String,
       default: '#FF0000',
     },
+    format: {
+      type: String as PropType<'rgb' | 'prgb' | 'hex' | 'hex6' | 'hex3' | 'hex4' | 'hex8' | 'name' | 'hsl' | 'hsv'>,
+      default: '',
+    },
     mode: {
-      type: String,
+      type: String as PropType<'hex' | 'rgba' | 'hsla'>,
       default: 'hex',
+    },
+    disableAlpha: {
+      type: Boolean,
+      default: false,
+    },
+    disableFields: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:value', 'change'],
@@ -28,9 +47,10 @@ export default defineComponent({
     });
 
     const handleChange = (colors: any) => {
-      const { mode } = props;
-      emit('update:value', colors[mode] || colors.hex);
-      emit('change', colors[mode] || colors.hex);
+      const { format } = props;
+      const _value = format ? colors.toString(format) : colors.hex;
+      emit('update:value', _value);
+      emit('change', _value);
     };
 
     return {

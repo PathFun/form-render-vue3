@@ -156,7 +156,7 @@ export default {
       rgba: 1,
       hsla: 2,
     };
-    this.fieldsIndex = modeToIndex[this.mode];
+    this.fieldsIndex = modeToIndex[this.mode] || 0;
   },
   methods: {
     childChange(data) {
