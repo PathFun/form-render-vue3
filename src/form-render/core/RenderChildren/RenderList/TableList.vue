@@ -26,7 +26,7 @@ const TableList = defineComponent({
         changeList,
       } = compProps;
 
-      const { props = {}, itemProps = {} } = schema;
+      const { props = {}, min = 0, max = 99999, itemProps = {} } = schema;
       const { buttons, ...columnProps } = itemProps;
       const { pagination = {}, ...rest } = props;
 
@@ -96,8 +96,10 @@ const TableList = defineComponent({
         const actionCloumnsSlot = {
           default: ({ index }: { index: number }) => (
             <div>
-              {!props.hideAdd && !props.hideCopy && <a onClick={() => copyItem(index)}>{actionColumnProps.copyText}</a>}
-              {!props.hideDelete && (
+              {!props.hideAdd && !props.hideCopy && displayList.length < (max as number) && (
+                <a onClick={() => copyItem(index)}>{actionColumnProps.copyText}</a>
+              )}
+              {!props.hideDelete && displayList.length > (min as number) && (
                 <Popconfirm placement="left" onConfirm={() => deleteItem(index)} {...delConfirmProps}>
                   <a style={{ marginLeft: '8px' }}>{actionColumnProps.delText}</a>
                 </Popconfirm>
@@ -133,7 +135,7 @@ const TableList = defineComponent({
         <>
           <div class="w-100 mb2 tr">
             <span class="fr-label-title fr-table-array">{schema.title}</span>
-            {!props.hideAdd && (
+            {!props.hideAdd && displayList.length < (max as number) && (
               <Button {...addBtnProps} onClick={addItem}>
                 新增一条
               </Button>

@@ -48,7 +48,7 @@ const DrawerList = defineComponent({
       } = compProps;
 
       const { widgets = {} } = propsStore.value;
-      const { props = {}, itemProps = {} } = schema;
+      const { props = {}, itemProps = {}, min = 0, max = 999 } = schema;
       const { buttons, ...columnProps } = itemProps;
       const { pagination = {}, ...rest } = props;
 
@@ -127,7 +127,7 @@ const DrawerList = defineComponent({
         default: ({ index }: { index: number }) => (
           <div>
             {!props.hideEdit && <a onClick={() => openDrawer(index)}>{actionColumnProps.editText}</a>}
-            {!props.hideDelete && (
+            {!props.hideDelete && displayList.length > (min as number) && (
               <Popconfirm placement="left" onConfirm={() => deleteItem(index)} {...delConfirmProps}>
                 <a style={{ marginLeft: '8px' }}>{actionColumnProps.delText}</a>
               </Popconfirm>
@@ -164,7 +164,7 @@ const DrawerList = defineComponent({
         <>
           <div class="w-100 mb2 tr">
             <span class="fr-label-title no-colon fr-table-array">{schema.title}</span>
-            {!props.hideAdd && (
+            {!props.hideAdd && displayList.length < (max as number) && (
               <Button {...addBtnProps} onClick={handleAdd}>
                 新增一条
               </Button>

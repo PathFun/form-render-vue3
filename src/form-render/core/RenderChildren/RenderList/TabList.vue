@@ -19,8 +19,6 @@ const TabList = defineComponent({
     };
     const onEdit = (targetKey: string | number | KeyboardEvent | MouseEvent, action: 'add' | 'remove') => {
       if (action === 'add') {
-        const { schema, displayList } = compProps;
-        if (schema.max && displayList.length >= (schema.max as number)) return;
         const currentKey = compProps.addItem();
         setActiveKey(currentKey);
       }
@@ -40,7 +38,7 @@ const TabList = defineComponent({
 
     return () => {
       const { schema, displayList, getFieldsProps, displayType, deleteItem, copyItem } = compProps;
-      const { props = {}, min = 0 } = schema;
+      const { props = {}, min = 0, max = 999 } = schema;
       const { tabName, type, draggable = false, hideDelete = false, ...restProps } = props;
       const { methods = {} } = propsStore.value;
       if (props.delConfirmProps && typeof props.delConfirmProps === 'object') {
@@ -52,6 +50,7 @@ const TabList = defineComponent({
           onChange={setActiveKey}
           activeKey={activeKey.value}
           onEdit={onEdit}
+          hideAdd={displayList.length >= (schema.max as number)}
           {...restProps}
         >
           {displayList.map((item, idx) => {
@@ -88,7 +87,7 @@ const TabList = defineComponent({
                           />
                         </Popconfirm>
                       )}
-                      {!props.hideAdd && !props.hideCopy && (
+                      {!props.hideAdd && !props.hideCopy && displayList.length < (max as number) && (
                         <CopyOutlined
                           style={{ fontSize: '13px', marginLeft: '8px', marginRight: '0px', color: '#00000073' }}
                           onClick={() => copyItem(idx)}

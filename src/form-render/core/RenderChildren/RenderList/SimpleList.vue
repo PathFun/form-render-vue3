@@ -70,7 +70,7 @@ const SimpleList = defineComponent({
                       <DeleteOutlined style={{ fontSize: '17px', marginLeft: '8px' }} />
                     </Popconfirm>
                   )}
-                  {!props.hideAdd && !props.hideCopy && (
+                  {!props.hideAdd && !props.hideCopy && displayList.length < (max as number) && (
                     <CopyOutlined style={{ fontSize: '15px', marginLeft: '8px' }} onClick={() => copyItem(idx)} />
                   )}
                   {!props.hideMove && (

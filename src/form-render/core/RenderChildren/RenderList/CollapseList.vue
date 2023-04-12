@@ -124,7 +124,7 @@ export default defineComponent({
                                 />
                               </Popconfirm>
                             )}
-                            {!props.hideAdd && !props.hideCopy && (
+                            {!props.hideAdd && displayList.length < (max as number) && !props.hideCopy && (
                               <CopyOutlined
                                 style={{ fontSize: '13px', marginLeft: '8px', marginRight: '0px', color: '#00000073' }}
                                 onClick={e => {

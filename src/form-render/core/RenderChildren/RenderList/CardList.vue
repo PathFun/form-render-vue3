@@ -78,7 +78,7 @@ export default defineComponent({
                         />
                       </>
                     )}
-                    {!props.hideAdd && !props.hideCopy && (
+                    {!props.hideAdd && displayList.length < (max as number) && !props.hideCopy && (
                       <CopyOutlined style={{ fontSize: '16px', marginLeft: '8px' }} onClick={() => copyItem(idx)} />
                     )}
                     {!props.hideDelete && displayList.length > (min as number) && (

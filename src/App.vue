@@ -25,6 +25,7 @@ const schema = reactive({
       type: 'array',
       title: '测试数组',
       min: 1,
+      max: 2,
       items: {
         type: 'object',
         properties: {
