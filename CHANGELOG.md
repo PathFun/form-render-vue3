@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/PathFun/swizzle/compare/v1.4.0...v1.4.2) (2023-04-12)
+
+
+### Bug Fixes
+
+* list max and min wrong ([af046a8](https://github.com/PathFun/swizzle/commit/af046a8fa771701350144ebe8e4b0ad65498990b))
+
 ## 1.4.0 (2023-04-12)
 
 
