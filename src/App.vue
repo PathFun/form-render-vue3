@@ -21,10 +21,40 @@ const form = useForm({
 const schema = reactive({
   type: 'object',
   properties: {
-    date: {
-      type: 'string',
-      format: 'time',
-      title: '日期',
+    test: {
+      type: 'array',
+      title: '测试数组',
+      min: 1,
+      items: {
+        type: 'object',
+        properties: {
+          inner: {
+            type: 'string',
+            title: '输入框',
+          },
+          inner1: {
+            type: 'string',
+            widget: 'select',
+            title: '选择框',
+          },
+          inner2: {
+            type: 'string',
+            title: '输入框2',
+          },
+          inner3: {
+            type: 'string',
+            title: '输入框3',
+          },
+          inner4: {
+            type: 'string',
+            title: '输入框4',
+          },
+          inner5: {
+            type: 'string',
+            title: '输入框5',
+          },
+        },
+      },
     },
   },
 });

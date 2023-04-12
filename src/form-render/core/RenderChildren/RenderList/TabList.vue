@@ -1,8 +1,10 @@
 <script lang="tsx">
 import { defineComponent, ref } from 'vue';
-import { Tabs } from 'ant-design-vue';
+import { Tabs, Popconfirm } from 'ant-design-vue';
 import Core from '../../Core.vue';
+import { CloseOutlined, CopyOutlined } from '@ant-design/icons-vue';
 import { listProps } from '../../../FRType';
+import { usePropsStore } from '../../../hooks';
 const { TabPane } = Tabs;
 
 const TabList = defineComponent({
@@ -10,39 +12,92 @@ const TabList = defineComponent({
   inheritAttrs: false,
   props: listProps(),
   setup(compProps) {
-    const activeKey = ref<any>('0');
+    const activeKey = ref<string | number>(0);
+    const propsStore = usePropsStore();
     const setActiveKey = (targetKey: string | number) => {
-      activeKey.value = `${targetKey}`;
+      activeKey.value = targetKey;
     };
     const onEdit = (targetKey: string | number | KeyboardEvent | MouseEvent, action: 'add' | 'remove') => {
       if (action === 'add') {
+        const { schema, displayList } = compProps;
+        if (schema.max && displayList.length >= (schema.max as number)) return;
         const currentKey = compProps.addItem();
         setActiveKey(currentKey);
-      } else if (action === 'remove') {
-        const keyNum = Number(targetKey);
-        compProps.deleteItem(keyNum);
-        setActiveKey(keyNum > 1 ? keyNum - 1 : 0);
-      } else {
-        return null;
       }
     };
 
     const getCurrentTabPaneName = (idx: number) => {
       const { props = {} } = compProps.schema;
       const { tabName } = props;
-      return tabName instanceof Array ? tabName[idx] || idx + 1 : `${tabName || '项目'} ${idx + 1}`;
+      return tabName instanceof Array ? tabName[idx] || idx + 1 : `${tabName || compProps.schema.title} ${idx + 1}`;
     };
+
+    let delConfirmProps = {
+      title: '确定删除?',
+      okText: '确定',
+      cancelText: '取消',
+    };
+
     return () => {
-      const { schema, displayList, getFieldsProps, displayType } = compProps;
-      const { props = {} } = schema;
-      const { tabName, type, draggable = false, ...restProps } = props;
+      const { schema, displayList, getFieldsProps, displayType, deleteItem, copyItem } = compProps;
+      const { props = {}, min = 0 } = schema;
+      const { tabName, type, draggable = false, hideDelete = false, ...restProps } = props;
+      const { methods = {} } = propsStore.value;
+      if (props.delConfirmProps && typeof props.delConfirmProps === 'object') {
+        delConfirmProps = { ...delConfirmProps, ...props.delConfirmProps };
+      }
       return (
-        <Tabs type={type || 'line'} onChange={setActiveKey} activeKey={activeKey} onEdit={onEdit} {...restProps}>
+        <Tabs
+          type={type || 'editable-card'}
+          onChange={setActiveKey}
+          activeKey={activeKey.value}
+          onEdit={onEdit}
+          {...restProps}
+        >
           {displayList.map((item, idx) => {
             const fieldsProps = getFieldsProps(idx);
             fieldsProps.displayType = displayType;
             return (
-              <TabPane tab={getCurrentTabPaneName(idx)} key={`${idx}`}>
+              <TabPane
+                key={idx}
+                closable={false}
+                v-slots={{
+                  tab: () => (
+                    <span>
+                      {getCurrentTabPaneName(idx)}
+                      {!hideDelete && displayList.length > (min as number) && (
+                        <Popconfirm
+                          placement="left"
+                          onConfirm={() => {
+                            if (props.onConfirm && typeof props.onConfirm === 'string') {
+                              const cb = methods[props.onConfirm];
+                              if (typeof cb === 'function') {
+                                const result = cb(item, idx);
+                                if (!result) {
+                                  return;
+                                }
+                              }
+                            }
+                            deleteItem(idx);
+                            activeKey.value = idx - 1 > -1 ? idx - 1 : 0;
+                          }}
+                          {...delConfirmProps}
+                        >
+                          <CloseOutlined
+                            style={{ fontSize: '13px', marginLeft: '8px', marginRight: '0px', color: '#00000073' }}
+                          />
+                        </Popconfirm>
+                      )}
+                      {!props.hideAdd && !props.hideCopy && (
+                        <CopyOutlined
+                          style={{ fontSize: '13px', marginLeft: '8px', marginRight: '0px', color: '#00000073' }}
+                          onClick={() => copyItem(idx)}
+                        />
+                      )}
+                    </span>
+                  ),
+                }}
+              >
                 <Core {...fieldsProps} />
               </TabPane>
             );

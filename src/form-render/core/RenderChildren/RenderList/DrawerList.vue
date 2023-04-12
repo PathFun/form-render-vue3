@@ -163,6 +163,7 @@ const DrawerList = defineComponent({
       return (
         <>
           <div class="w-100 mb2 tr">
+            <span class="fr-label-title no-colon fr-table-array">{schema.title}</span>
             {!props.hideAdd && (
               <Button {...addBtnProps} onClick={handleAdd}>
                 新增一条

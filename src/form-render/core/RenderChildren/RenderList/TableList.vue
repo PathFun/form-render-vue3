@@ -132,6 +132,7 @@ const TableList = defineComponent({
       return (
         <>
           <div class="w-100 mb2 tr">
+            <span class="fr-label-title fr-table-array">{schema.title}</span>
             {!props.hideAdd && (
               <Button {...addBtnProps} onClick={addItem}>
                 新增一条

@@ -135,7 +135,7 @@ export default defineComponent({
         if (width) {
           columnStyle.width = width;
           columnStyle.paddingRight = '8px';
-        } else if (column > 1) {
+        } else if (Number(column) > 1) {
           columnStyle.width = `calc(100% /${column})`;
           columnStyle.paddingRight = '8px';
         }

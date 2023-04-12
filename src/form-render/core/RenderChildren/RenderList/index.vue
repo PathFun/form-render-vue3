@@ -9,7 +9,7 @@ import './list.less';
 import SimpleList from './SimpleList.vue';
 import TableList from './TableList.vue';
 import TabList from './TabList.vue';
-// import VirtualList from './VirtualList..vue';
+import CollapseList from './CollapseList.vue';
 import { renderListProps, FlattenValue } from '../../../FRType';
 
 const RenderList = defineComponent({
@@ -165,15 +165,15 @@ const RenderList = defineComponent({
         case 'list3':
         case 'drawerList':
           return <DrawerList {...displayProps} />;
-        // case 'list4':
-        // case 'virtualList':
-        //   return <VirtualList {...displayProps} />;
+        case 'list4':
+        case 'cardList':
+          return <CardList {...displayProps} />;
         case 'tabList':
           return <TabList {...displayProps} />;
         case 'list0':
-        case 'cardList':
+        case 'collapseList':
         default:
-          return <CardList {...displayProps} />;
+          return <CollapseList {...displayProps} />;
       }
     };
   },

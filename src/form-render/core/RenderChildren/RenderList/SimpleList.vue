@@ -62,10 +62,10 @@ const SimpleList = defineComponent({
               fieldsProps.hideTitle = true;
             }
             return (
-              <div key={idx} style={{ display: 'flex' }}>
+              <div class="fr-simple-item" key={idx} style={{ display: 'flex' }}>
                 <Core {...fieldsProps} />
-                <div style={{ marginTop: '6px' }}>
-                  {!props.hideDelete && displayList.length > min && (
+                <div style={{ marginTop: '6px', display: 'flex' }}>
+                  {!props.hideDelete && displayList.length > (min as number) && (
                     <Popconfirm placement="left" onConfirm={() => deleteItem(idx)} {...delConfirmProps}>
                       <DeleteOutlined style={{ fontSize: '17px', marginLeft: '8px' }} />
                     </Popconfirm>
@@ -90,7 +90,7 @@ const SimpleList = defineComponent({
             );
           })}
           <div style={{ marginTop: displayList.length > 0 ? 0 : '8px' }}>
-            {!props.hideAdd && displayList.length < max && <AddWidget {...addBtnProps}>新增一条</AddWidget>}
+            {!props.hideAdd && displayList.length < (max as number) && <AddWidget {...addBtnProps}>新增一条</AddWidget>}
             {Array.isArray(props.buttons)
               ? props.buttons.map((item, idx) => {
                   const { callback, text, html } = item;

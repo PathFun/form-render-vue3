@@ -60,7 +60,10 @@ export default defineComponent({
               fieldsProps.displayType = displayType;
               return (
                 <div class={`fr-card-item ${displayType === 'row' ? 'fr-card-item-row' : ''}`} key={idx}>
-                  <div class="fr-card-index">{idx + 1}</div>
+                  <div class="fr-card-index">
+                    {schema.title}
+                    {idx + 1}
+                  </div>
                   <Core {...fieldsProps} />
                   <div class="fr-card-toolbar">
                     {!props.hideMove && (
@@ -78,7 +81,7 @@ export default defineComponent({
                     {!props.hideAdd && !props.hideCopy && (
                       <CopyOutlined style={{ fontSize: '16px', marginLeft: '8px' }} onClick={() => copyItem(idx)} />
                     )}
-                    {!props.hideDelete && displayList.length > min && (
+                    {!props.hideDelete && displayList.length > (min as number) && (
                       <Popconfirm
                         placement="left"
                         onConfirm={() => {
@@ -104,7 +107,9 @@ export default defineComponent({
             })}
           </div>
           <div style={{ marginTop: displayList.length > 0 ? 0 : '8px' }}>
-            {!props.hideAdd && displayList.length < max && <AddWidget {...addBtnProps}> 新增一条 </AddWidget>}
+            {!props.hideAdd && displayList.length < (max as number) && (
+              <AddWidget {...addBtnProps}> 新增一条 </AddWidget>
+            )}
             {Array.isArray(props.buttons)
               ? props.buttons.map((item, idx) => {
                   const { callback, text, html } = item;
