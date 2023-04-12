@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.3](https://github.com/PathFun/swizzle/compare/v1.4.1...v1.4.3) (2023-04-12)
+
+
+### Bug Fixes
+
+* css ([9e10083](https://github.com/PathFun/swizzle/commit/9e1008355961d024cc6a1a6831779a5fbb5967c1))
+
 ### [1.4.2](https://github.com/PathFun/swizzle/compare/v1.4.1...v1.4.2) (2023-04-12)
 
 
