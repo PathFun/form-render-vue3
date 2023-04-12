@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.4](https://github.com/PathFun/swizzle/compare/v1.4.3...v1.4.4) (2023-04-12)
+
+
+### Bug Fixes
+
+* CollapseList expandIcon show wrong ([2429a6f](https://github.com/PathFun/swizzle/commit/2429a6f88e3f3ebf40a08b3f6b96b0b6a625245c))
+
 ### [1.4.3](https://github.com/PathFun/swizzle/compare/v1.4.1...v1.4.3) (2023-04-12)
 
 
