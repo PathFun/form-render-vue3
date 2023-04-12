@@ -72,7 +72,7 @@ export default defineComponent({
             style="background-color: transparent;"
             {...restProps}
             v-slots={{
-              expandIcon: (isActive: boolean) => <CaretRightOutlined rotate={isActive ? 90 : 0} />,
+              expandIcon: ({ isActive }: { isActive: boolean }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />,
               default: () => {
                 return displayList.map((item, idx) => {
                   const fieldsProps = getFieldsProps(idx);
