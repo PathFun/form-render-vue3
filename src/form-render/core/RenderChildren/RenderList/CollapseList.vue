@@ -81,6 +81,7 @@ export default defineComponent({
                     <Panel
                       key={idx}
                       style="background-color: #fafafa; border-radius: 2px;margin-bottom: 8px;border: 0;overflow: hidden"
+                      class="fr-collapse-list"
                       {...panelProps}
                       v-slots={{
                         header: () => (

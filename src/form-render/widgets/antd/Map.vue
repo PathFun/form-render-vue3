@@ -31,7 +31,7 @@
     <collapse :active-key="activeKey" @change="handleToggle">
       <Panel :key="1" class="fr-collapse-object">
         <template #header>
-          <span style="font-weight: 500; font-size: 16px">{{ schema.title }}</span>
+          <span>{{ schema.title }}</span>
         </template>
         <slot />
       </Panel>
