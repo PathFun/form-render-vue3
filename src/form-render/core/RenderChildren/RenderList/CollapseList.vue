@@ -12,7 +12,7 @@ export default defineComponent({
   props: listProps(),
   setup(compProps) {
     const propsStore = usePropsStore();
-    const activeKey = ref<any>([0]);
+    const activeKey = ref<any>([]);
     return () => {
       const {
         displayList = [],

@@ -21,38 +21,140 @@ const form = useForm({
 const schema = reactive({
   type: 'object',
   properties: {
-    test: {
+    data: {
       type: 'array',
-      title: '测试数组',
-      min: 1,
-      max: 2,
+      title: '中心数据',
+      widget: 'drawerList',
+      readOnlyWidget: 'staticJson',
       items: {
         type: 'object',
         properties: {
-          inner: {
+          key: {
             type: 'string',
-            title: '输入框',
+            title: '数据的key(唯一)',
+            required: true,
           },
-          inner1: {
+          label: {
             type: 'string',
-            widget: 'select',
-            title: '选择框',
+            title: '数据的label',
+            required: true,
           },
-          inner2: {
-            type: 'string',
-            title: '输入框2',
-          },
-          inner3: {
-            type: 'string',
-            title: '输入框3',
-          },
-          inner4: {
-            type: 'string',
-            title: '输入框4',
-          },
-          inner5: {
-            type: 'string',
-            title: '输入框5',
+          value: {
+            type: 'object',
+            title: '配置',
+            properties: {
+              dataType: {
+                title: '数据类型',
+                type: 'string',
+                enum: ['interface', 'custom'],
+                enumNames: ['接口数据', '自定义数据'],
+              },
+              url: {
+                type: 'string',
+                title: '接口地址',
+                hidden: `{{rootValue.dataType !== 'interface'}}`,
+                props: {
+                  addonBefore: 'url',
+                },
+              },
+              method: {
+                type: 'string',
+                title: '请求方法',
+                enum: ['GET', 'POST', 'Put'],
+                hidden: `{{rootValue.dataType !== 'interface'}}`,
+              },
+              interval: {
+                type: 'number',
+                title: '刷新时间',
+                hidden: `{{rootValue.dataType !== 'interface'}}`,
+                description:
+                  '不填或者0时只在初始化时获取, 数值大于0时则为间隔当前数值时间获取、单位为秒，建议设置数值不少于1000',
+              },
+              data: {
+                type: 'array',
+                title: '接口data参数',
+                hidden: `{{rootValue.dataType !== 'interface'}}`,
+                max: 20,
+                items: {
+                  type: 'object',
+                  properties: {
+                    key: {
+                      type: 'string',
+                      title: '参数名',
+                    },
+                    value: {
+                      type: 'string',
+                      title: '参数值',
+                    },
+                    valueType: {
+                      type: 'string',
+                      title: '值类型',
+                      description: `数字类型会以Number(str)转换、数组型会以str.split(',')方式转换, 复杂数组型与对象型会以JSON.parse(str)转换`,
+                      enum: ['string', 'number', 'array', 'object'],
+                      enumNames: ['字符型', '数字型', '数组型', '对象型'],
+                    },
+                  },
+                },
+              },
+              params: {
+                type: 'array',
+                title: '接口params参数',
+                hidden: `{{rootValue.dataType !== 'interface'}}`,
+                max: 20,
+                items: {
+                  type: 'object',
+                  properties: {
+                    key: {
+                      type: 'string',
+                      title: '参数名',
+                    },
+                    value: {
+                      type: 'string',
+                      title: '参数值',
+                    },
+                  },
+                },
+              },
+              afterFetch: {
+                type: 'string',
+                title: '获取数据后整理函数',
+                description: '接口返回数据后执行此方法, result为返回值关键词',
+                descType: 'text',
+                widget: 'codemirror',
+                props: {
+                  extensions: ['javascript'],
+                  placeholder: '请填写',
+                  style: {
+                    height: '220px',
+                  },
+                },
+                hidden: `{{rootValue.dataType !== 'interface'}}`,
+              },
+              json: {
+                type: 'string',
+                title: '自定义JSON数据',
+                widget: 'customData',
+                props: {
+                  extensions: ['javascript'],
+                  placeholder: '请填写',
+                },
+                hidden: `{{rootValue.dataType !== 'custom'}}`,
+              },
+              initData: {
+                type: 'string',
+                title: '整理数据',
+                description: 'result为返回值关键词',
+                widget: 'codemirror',
+                props: {
+                  extensions: ['javascript'],
+                  placeholder: '请填写',
+                  style: {
+                    height: '220px',
+                  },
+                },
+                hidden: `{{rootValue.dataType === 'interface'}}`,
+              },
+            },
           },
         },
       },
@@ -345,16 +447,16 @@ const changeDisabled = () => {
 };
 
 const getFormDate = () => {
-  console.log(form.formData);
+  // console.log(form.formData);
 };
 
-watch(
-  () => form.formData,
-  newFormData => console.log(newFormData),
-  {
-    deep: true,
-  }
-);
+// watch(
+//   () => form.formData,
+//   newFormData => console.log(newFormData),
+//   {
+//     deep: true,
+//   }
+// );
 </script>
 
 <template>
@@ -363,7 +465,8 @@ watch(
       :form="form"
       :schema="schema"
       colon
-      display-type="row"
+      desc-type="icon"
+      display-type="column"
       label-align="right"
       :on-finish="onFinish"
       :disabled="disabled"

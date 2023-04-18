@@ -61,6 +61,7 @@ export default defineComponent({
           displayType: props.displayType,
           labelAlign: props.labelAlign,
           colon: props.colon,
+          descType: props.descType,
           theme: props.theme || '',
           column: props.column,
           debounceInput: props.debounceInput,

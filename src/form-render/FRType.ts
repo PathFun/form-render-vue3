@@ -220,6 +220,7 @@ export interface FRPropsCtx {
   mapping: Record<string, string>;
   labelAlign: LabelAlign;
   colon: boolean;
+  descType: 'text' | 'icon' | 'widget';
   renderTitle: (schema: Record<string, any>) => JSX.Element;
   requiredMark: RequiredMark;
   methods: Record<string, (...args: any[]) => any>;
@@ -259,6 +260,7 @@ export const frProps = () => ({
   displayType: String as PropType<DisplayType>,
   /** 表示是否显示 label 后面的冒号 */
   colon: Boolean,
+  descType: String as PropType<'text' | 'icon' | 'widget'>,
   /** label 标签的文本对齐方式	 */
   labelAlign: {
     type: String as PropType<LabelAlign>,

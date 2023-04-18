@@ -48,7 +48,7 @@ const DrawerList = defineComponent({
       } = compProps;
 
       const { widgets = {} } = propsStore.value;
-      const { props = {}, itemProps = {}, min = 0, max = 999 } = schema;
+      const { props = {}, itemProps = {}, min = 0, max = 999, readOnlyWidget } = schema;
       const { buttons, ...columnProps } = itemProps;
       const { pagination = {}, ...rest } = props;
 
@@ -94,31 +94,30 @@ const DrawerList = defineComponent({
 
       const columns = children.map(child => {
         const item = flatten[child];
-        const schema = (item && item.schema) || {};
+        const _schema = (item && item.schema) || {};
         const _dataIndex = getKeyFromPath(child);
         const slots = {
           default: ({ record, index }: { record: Record<string, any>; index: number }) => {
             const childPath = getDataPath(child, [index]);
             const errorObj = errorFields.find(item => item.name == childPath);
             const value = record[_dataIndex];
-            //TODO: 万一error在更深的层，这个办法是find不到的，会展示那一行没有提示。可以整一行加一个红线的方式处理
-            const Widget = widgets[schema.readOnlyWidget || ''];
+            const Widget = widgets[readOnlyWidget || ''];
             return (
               <div>
-                <div>{Widget ? <Widget value={value} schema={schema} /> : getDisplayValue(value, schema)}</div>
-                {errorObj && errorObj.error && <ErrorMessage message={errorObj.error} schema={schema} />}
+                <div>{Widget ? <Widget value={value} schema={_schema} /> : getDisplayValue(value, _schema)}</div>
+                {errorObj && errorObj.error && <ErrorMessage message={errorObj.error} schema={_schema} />}
               </div>
             );
           },
           title: () =>
-            schema.required
-              ? () => (
-                  <>
-                    <span class="fr-label-required"> *</span>
-                    <span>{schema.title}</span>
-                  </>
-                )
-              : schema.title,
+            _schema.required ? (
+              <>
+                <span class="fr-label-required"> *</span>
+                <span>{_schema.title}</span>
+              </>
+            ) : (
+              _schema.title
+            ),
         };
         return <TableColumn dataIndex={_dataIndex} width={FIELD_LENGTH} {...columnProps} v-slots={slots} />;
       });

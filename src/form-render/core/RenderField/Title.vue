@@ -9,12 +9,16 @@ const Description = ({
   displayType,
   schema,
   widgets,
+  descType: gDescType,
 }: {
+  descType: 'widget' | 'text' | 'icon' | undefined;
   schema: FlattenSchema;
   displayType: DisplayType;
   widgets: Record<string, any>;
 }) => {
-  const { description, descType, descWidget } = schema;
+  const { description, descType: cDescType, descWidget } = schema;
+  console.log(cDescType, gDescType);
+  const descType = cDescType || gDescType;
   if (!description && !descWidget) return null;
   const _description =
     typeof description === 'string' && /(^<|\/>)/.test(description) ? <div innerHTML={description} /> : description;
@@ -60,7 +64,7 @@ const Title = defineComponent({
     const propsStore = usePropsStore();
     return () => {
       const { labelClass, labelStyle, schema, displayType, renderTitle, requiredMark: globalRequiredMark } = props;
-      const { displayType: globalDisplayType, readOnly, colon, widgets = {} } = propsStore.value;
+      const { displayType: globalDisplayType, readOnly, colon, widgets = {}, descType } = propsStore.value;
       const { title, required, type, requiredMark: schemaRequiredMark } = schema;
       const isObjType = type === 'object';
 
@@ -123,6 +127,7 @@ const Title = defineComponent({
                 schema,
                 displayType: _displayType,
                 widgets,
+                descType,
               })}
             </label>
           ) : null}
