@@ -17,7 +17,6 @@ const Description = ({
   widgets: Record<string, any>;
 }) => {
   const { description, descType: cDescType, descWidget } = schema;
-  console.log(cDescType, gDescType);
   const descType = cDescType || gDescType;
   if (!description && !descWidget) return null;
   const _description =
