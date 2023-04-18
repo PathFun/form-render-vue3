@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.5](https://github.com/PathFun/swizzle/compare/v1.4.4...v1.4.5) (2023-04-18)
+
+
+### Bug Fixes
+
+* drawerList 表头显示bug ([46805a3](https://github.com/PathFun/swizzle/commit/46805a3712095cd14400a778060861234fa2a403))
+
 ### [1.4.4](https://github.com/PathFun/swizzle/compare/v1.4.3...v1.4.4) (2023-04-12)
 
 
